@@ -1,0 +1,30 @@
+version_base: 1.1
+
+hydra:
+  run:
+    dir: .
+
+
+
+dataset:
+  path: "data/raw/credit_risk_dataset.csv"
+  target: "loan_status"
+  test_size: 0.2
+  random_state: 42
+
+model:
+  n_jobs: -1
+  random_state: 42
+  params: {}
+
+mlflow:
+  experiment_name: "credit-risk-experiment"
+  tracking_uri: "file:./experiments/mlruns"
+
+eval:
+  threshold: 0.5
+
+run:
+  name: "xgb_baseline"
+
+
