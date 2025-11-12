@@ -1,0 +1,7 @@
+# configs/data.yaml
+dataset:
+  path: "data/raw/credit_risk_dataset.csv"
+  target: "loan_status"
+  test_size: 0.2
+  random_state: 42
+  
