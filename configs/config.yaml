@@ -19,7 +19,7 @@ model:
 
 mlflow:
   experiment_name: "credit-risk-experiment"
-  tracking_uri: "file:./experiments/mlruns"
+  tracking_uri: "sqlite:///mlflow.db"
 
 eval:
   threshold: 0.5

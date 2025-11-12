@@ -16,5 +16,5 @@ def split_data(df, target_col: str = "loan_status", test_size: float = 0.2, rand
         X, y, test_size=test_size, stratify=y, random_state=random_state
     )
 
-    print(f"✅ Split done: {X_train.shape[0]} train rows, {X_test.shape[0]} test rows")
+    print(f" Split done: {X_train.shape[0]} train rows, {X_test.shape[0]} test rows")
     return X_train, X_test, y_train, y_test

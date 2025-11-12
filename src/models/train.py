@@ -31,7 +31,7 @@ def main(cfg: DictConfig):
     Hydra will pick configs/config.yaml (which should import data/model/mlflow blocks).
     """
     # 1) Prepare MLflow
-    mlflow_uri = cfg.mlflow.tracking_uri if "mlflow" in cfg and "tracking_uri" in cfg.mlflow else None
+    mlflow_uri = cfg.mlflow.tracking_uri
     if mlflow_uri:
         mlflow.set_tracking_uri(mlflow_uri)
     mlflow.set_experiment(cfg.mlflow.experiment_name if "mlflow" in cfg else "credit-risk-experiment")

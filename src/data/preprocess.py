@@ -44,5 +44,5 @@ def build_preprocessor(X: pd.DataFrame):
         ('cat', cat_pipe, cat_cols)
     ])
 
-    print(f"✅ Preprocessor built with {len(num_cols)} numeric and {len(cat_cols)} categorical features")
+    print(f" Preprocessor built with {len(num_cols)} numeric and {len(cat_cols)} categorical features")
     return preprocessor
