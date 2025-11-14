@@ -7,3 +7,5 @@ experiments
 outputs
 mlruns
 mlflow.db
+poetry.lock
+train.log
