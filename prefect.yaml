@@ -1,0 +1,12 @@
+version: 3
+
+deployments:
+  - name: daily-credit-risk-training
+    entrypoint: src/pipelines/train_flow.py:training_flow
+    work_pool:
+      name: local-pool
+    parameters:
+      config_path: "configs/config.yaml"
+    schedule:
+      cron: "0 15 * * *"
+      timezone: "Africa/Cairo"

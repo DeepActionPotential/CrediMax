@@ -28,3 +28,8 @@ run:
   name: "xgb_baseline"
 
 
+
+model_registry:
+  model_name: "credit-risk-model"
+  min_roc_auc: 0.90
+  min_pr_auc: 0.80
