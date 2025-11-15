@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: docker/train.Dockerfile
+    container_name: mlflow-server
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root /app/mlruns
+      --host 0.0.0.0 --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/app/mlruns
+      - ./mlflow.db:/app/mlflow.db
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    container_name: creditrisk-api
+    depends_on:
+      - mlflow
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./mlruns:/app/mlruns
+
+  trainer:
+    build:
+      context: .
+      dockerfile: docker/train.Dockerfile
+    container_name: creditrisk-trainer
+    depends_on:
+      - mlflow
+    volumes:
+      - ./mlruns:/app/mlruns
+      - ./artifacts:/app/artifacts
+      - ./data:/app/data
+    entrypoint: ["/bin/bash", "-c", "echo Trainer ready; tail -f /dev/null"]
