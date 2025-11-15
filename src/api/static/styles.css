@@ -1,0 +1,173 @@
+/* ==================== GLOBAL ==================== */
+body {
+    background-color: #1C1C1C;
+    color: #F5EDE2;
+    margin: 0;
+    font-family: "Inter", Arial, sans-serif;
+}
+
+section {
+    padding: 35px 20px;   /* Reduced from 60px → 35px */
+}
+
+:root {
+    --accent: #FF7A00;
+}
+
+/* ==================== HERO ==================== */
+.hero {
+    text-align: left;
+    max-width: 700px;
+    margin: 40px auto; /* Reduced from 60px */
+}
+
+.hero-title {
+    font-size: 48px;    /* smaller */
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 16px;   /* smaller */
+    color: #B9B2A8;
+    max-width: 450px;
+}
+
+.cta-btn {
+    margin-top: 15px;
+    padding: 12px 24px; /* smaller */
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+}
+.cta-btn:hover {
+    background: #e86f00;
+}
+
+/* ==================== FEATURE CARDS ==================== */
+.features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;  /* smaller gap */
+    margin-top: 10px;
+}
+
+.f-card {
+    background: #242424;
+    border-radius: 18px; /* slightly smaller */
+    padding: 18px;       /* reduced padding */
+    width: 210px;        /* smaller size */
+    min-height: 110px;
+    color: #F5EDE2;
+    font-size: 14px;
+}
+
+.f-card h3, .f-card h2 {
+    margin: 0 0 5px;
+    font-size: 18px;
+}
+
+.f1 {
+    background: #EDE6DA;
+    color: #2B2B2B;
+}
+.f3 {
+    background: #FFF1E6;
+    color: #1C1C1C;
+    text-align: center;
+}
+
+/* ==================== FORM SECTION ==================== */
+.form-section {
+    max-width: 760px; 
+    margin: 50px auto;  /* reduced from 80px */
+    background: #242424;
+    border: 1px solid #333;
+    border-radius: 16px;
+    padding: 30px;      /* reduced from 40px */
+}
+
+.form-title {
+    font-size: 26px;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;  /* reduced gap */
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;    /* smaller text */
+    color: #CFC9C1;
+}
+
+input, select {
+    margin-top: 4px;
+    padding: 10px;      /* smaller height */
+    border-radius: 8px;
+    font-size: 14px;
+    background: #1A1A1A;
+    border: 1px solid #333;
+    color: #FFF;
+}
+
+.predict-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+.predict-btn:hover {
+    background: #e86f00;
+}
+
+/* ==================== RESULT BOX ==================== */
+#result {
+    margin-top: 18px;
+    background: #1A1A1A;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+}
+
+
+/* ==================== 2-COLUMN HERO LAYOUT ==================== */
+.hero-wrapper {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;  /* left bigger */
+    gap: 40px;
+    max-width: 1300px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+/* LEFT SIDE CONTENT */
+.hero-left {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Keep your original styles (title, subtitle, cards, etc.) */
+
+/* RIGHT SIDE FORM FIX: reduce maximum width */
+.form-section {
+    margin: 0;               /* no vertical spacing */
+    width: 100%;
+    height: fit-content;
+}
