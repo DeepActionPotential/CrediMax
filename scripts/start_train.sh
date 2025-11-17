@@ -2,4 +2,4 @@
 set -e
 
 echo "🚀 Training model..."
-poetry run python -m src.models.train
+poetry run python -m credit_risk_mlops.models.train

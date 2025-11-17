@@ -6,9 +6,9 @@ import mlflow
 import mlflow.sklearn
 from mlflow.tracking import MlflowClient
 
-from src.data.load_data import load_dataset
-from src.data.split import split_data
-from src.data.preprocess import feature_engineering, build_preprocessor
+from credit_risk_mlops.data.load_data import load_dataset
+from credit_risk_mlops.data.split import split_data
+from credit_risk_mlops.data.preprocess import feature_engineering, build_preprocessor
 
 import xgboost as xgb
 from sklearn.pipeline import Pipeline

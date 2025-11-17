@@ -12,9 +12,9 @@ from sklearn.metrics import roc_auc_score, average_precision_score, classificati
 import joblib
 
 # local imports (from your data module)
-from src.data.load_data import load_dataset
-from src.data.split import split_data
-from src.data.preprocess import feature_engineering, build_preprocessor
+from credit_risk_mlops.data.load_data import load_dataset
+from credit_risk_mlops.data.split import split_data
+from credit_risk_mlops.data.preprocess import feature_engineering, build_preprocessor
 
 import xgboost as xgb
 import matplotlib.pyplot as plt
@@ -27,7 +27,7 @@ def main(cfg: DictConfig):
     """
     Train entrypoint.
     Run from project root:
-      poetry run python -m src.models.train
+      poetry run python -m credit_risk_mlops.models.train
     Hydra will pick configs/config.yaml (which should import data/model/mlflow blocks).
     """
     # 1) Prepare MLflow
