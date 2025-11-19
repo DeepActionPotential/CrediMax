@@ -22,18 +22,10 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
 
-          # ✅ MUST NOT use "./" inside a multi-line block
-          source: |
-            credit_risk_mlops
-            configs
-            docker
-            scripts
-            data
-            docker-compose.yml
-            poetry.lock
-            pyproject.toml
+          # FIXED: scp-action ONLY accepts comma-separated list for multi paths
+          source: "credit_risk_mlops,configs,docker,scripts,data,docker-compose.yml,poetry.lock,pyproject.toml"
 
-          target: /home/ubuntu/CrediMax
+          target: "/home/ubuntu/CrediMax"
           overwrite: true
           strip_components: 0
 
