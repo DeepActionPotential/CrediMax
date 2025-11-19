@@ -20,11 +20,20 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./"
+          source: |
+            ./credit_risk_mlops
+            ./configs
+            ./docker
+            ./scripts
+            ./data
+            ./docker-compose.yml
+            ./poetry.lock
+            ./pyproject.toml
+
           strip_components: 0
           target: "/home/ubuntu/CrediMax"
           overwrite: true
-          exclude: ".git"
+          
 
       - name: Restart application via SSH
         uses: appleboy/ssh-action@master
