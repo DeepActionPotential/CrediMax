@@ -5,7 +5,7 @@ import json
 # --- Configuration ---
 # Set the name of the root directory you want to create and analyze.
 # It will be created in the same location where you run this script.
-ROOT_DIR_NAME = r"E:\ML\temps\CrediMax"
+ROOT_DIR_NAME = r"E:\ML\temps\credimax"
 
 # New setting to exclude directories from being printed or traversed
 EXCLUDE_FOLDERS = ['__pycache__', 'env', '.git', '.venv', '.hydra', '.venv', 'artifacts', 'mlruns']
