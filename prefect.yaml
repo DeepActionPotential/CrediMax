@@ -6,7 +6,7 @@ deployments:
     work_pool:
       name: local-pool
     parameters:
-      config_path: "configs/config.yaml"
+      config_path: "/app/configs/config.yaml"
     schedule:
       # Every Sunday at 15:00
       cron: "0 15 * * SUN"

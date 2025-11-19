@@ -1,24 +1,33 @@
+# ============================
+#  CrediMax Training Dockerfile
+# ============================
+
 FROM python:3.11-slim
 
+# System dependencies for scientific stack
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential git && \
-    rm -rf /var/lib/apt/lists/*
+        gcc \
+        g++ \
+        libgomp1 \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
 
-ENV POETRY_VERSION=1.7.1
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:${PATH}"
+# Install Poetry
+ENV POETRY_VERSION=1.8.3
+RUN pip install --no-cache-dir poetry==$POETRY_VERSION
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock /app/
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi
+# Copy project metadata
+COPY pyproject.toml poetry.lock ./
 
-COPY . /app
+# Copy ML project code
+COPY credit_risk_mlops ./credit_risk_mlops
+COPY configs ./configs
+COPY data ./data
 
-RUN mkdir -p /app/mlruns /app/artifacts
+# Install dependencies
+RUN poetry install --no-root --only main
 
-COPY scripts/start_train.sh /app/scripts/start_train.sh
-RUN chmod +x /app/scripts/start_train.sh
-
-CMD ["/bin/bash"]
+# Training entrypoint
+CMD ["poetry", "run", "python", "-m", "credit_risk_mlops.models.train"]

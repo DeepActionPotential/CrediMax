@@ -161,7 +161,7 @@ def model_gating(results, cfg):
     try:
         prod_versions = client.get_latest_versions(name=model_name, stages=["Production"])
         if not prod_versions:
-            print("No production model found → deploying first model.")
+            print("No production model found - deploying first model.")
             return True
 
         prod = prod_versions[0]
@@ -223,7 +223,7 @@ def promote_model(cfg, run_id, results):
             raise RuntimeError(f"Experiment '{cfg.mlflow.experiment_name}' not found.")
         exp_id = exp.experiment_id
 
-    source = f"mlruns/{exp_id}/{run_id}/artifacts/pipeline"
+    source = str(Path("mlruns") / str(exp_id) / str(run_id) / "artifacts" / "pipeline")
     print(f"Registering model version from: {source}")
 
     # -------------------------------------------
@@ -259,7 +259,7 @@ def promote_model(cfg, run_id, results):
 # ---------------------------
 
 @flow(name="credit-risk-training-flow")
-def training_flow(config_path: str = "configs/config.yaml"):
+def training_flow(config_path: str = "/app/configs/config.yaml"):
     cfg = load_config(config_path)
 
     df = load_and_prepare_data(cfg)

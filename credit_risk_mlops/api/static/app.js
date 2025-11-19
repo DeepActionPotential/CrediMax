@@ -27,7 +27,7 @@ document.getElementById("predictForm").addEventListener("submit", async (e) => {
     resultDiv.innerHTML = `
         <b>Probability of Default:</b> ${data.probability.toFixed(4)}<br>
         <b>Prediction:</b> ${
-            data.prediction === 1 ? "⚠ High Risk" : "✔ Low Risk"
+            data.prediction === 1 ? " High Risk" : " Low Risk"
         }
     `;
 });

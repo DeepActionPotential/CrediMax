@@ -22,7 +22,7 @@ import seaborn as sns
 sns.set(style="whitegrid")
 
 
-@hydra.main(config_path="../../configs", config_name="config")
+@hydra.main(config_path="configs", config_name="config")
 def main(cfg: DictConfig):
     """
     Train entrypoint.

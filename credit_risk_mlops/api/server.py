@@ -5,13 +5,30 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
+import os
+import os
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+
 
 app = FastAPI(title="Credit Risk Predictor", version="1.0")
 
 # ======================================================
 # Load Model
 # ======================================================
-MODEL_PATH = "artifacts/credit_risk_pipeline.joblib"
+
+
+# LOCAL default
+LOCAL_MODEL_PATH = Path(__file__).resolve().parent.parent.parent / "artifacts" / "credit_risk_pipeline.joblib"
+
+# DOCKER default
+DOCKER_MODEL_PATH = Path("/app/artifacts/credit_risk_pipeline.joblib")
+
+MODEL_PATH = os.getenv("MODEL_PATH", str(LOCAL_MODEL_PATH))
+
+# If running in Docker (ENV var DOCKER=1), override
+if os.getenv("DOCKER"):
+    MODEL_PATH = str(DOCKER_MODEL_PATH)
 
 try:
     pipeline = joblib.load(MODEL_PATH)
@@ -93,12 +110,22 @@ async def predict(req: Request):
 # ======================================================
 # Static Frontend Routes
 # ======================================================
-FRONTEND_DIR = Path(__file__).resolve().parent / "static"
 
-app.mount("/static", StaticFiles(directory=str(FRONTEND_DIR)), name="static")
 
-from fastapi.responses import FileResponse
+
+# ======================================================
+# Static Frontend Routes
+# ======================================================
+
+
+BASE_DIR = Path(__file__).resolve().parent
+STATIC_DIR = BASE_DIR / "static"
+TEMPLATE_PATH = BASE_DIR / "templates" / "index.html"
+
+# 🔥 Mount static files
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/", include_in_schema=False)
 def root():
-    return FileResponse("src/api/templates/index.html")
+    return FileResponse(TEMPLATE_PATH)
+

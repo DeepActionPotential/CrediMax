@@ -1,42 +1,35 @@
+# ============================
+#  CrediMax API Dockerfile
+# ============================
+
 FROM python:3.11-slim
 
-# ----------------------------------------------------
-# Install system dependencies
-# ----------------------------------------------------
+# Install system deps needed by numpy, pandas, xgboost, etc.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential curl git && \
-    rm -rf /var/lib/apt/lists/*
+        gcc \
+        g++ \
+        libgomp1 \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
 
-# ----------------------------------------------------
 # Install Poetry
-# ----------------------------------------------------
-ENV POETRY_VERSION=1.7.1
-RUN curl -sSL https://install.python-poetry.org | python3 -
-ENV PATH="/root/.local/bin:${PATH}"
+ENV POETRY_VERSION=1.8.3
+RUN pip install --no-cache-dir poetry==$POETRY_VERSION
 
-# ----------------------------------------------------
-# Set working dir
-# ----------------------------------------------------
+# Set working directory
 WORKDIR /app
 
-# ----------------------------------------------------
 # Copy project files
-# ----------------------------------------------------
-COPY pyproject.toml poetry.lock /app/
-RUN poetry config virtualenvs.create false
-RUN poetry install --no-interaction --no-ansi
+COPY pyproject.toml poetry.lock ./
+COPY credit_risk_mlops ./credit_risk_mlops
+COPY configs ./configs
+COPY artifacts ./artifacts
 
-# Now copy the full project
-COPY . /app
-
-# Create required folders
-RUN mkdir -p /app/artifacts /app/mlruns
+# Install dependencies (without dev)
+RUN poetry install --no-root --only main
 
 # Expose API port
 EXPOSE 8000
 
-# Start script
-COPY scripts/start_api.sh /app/scripts/start_api.sh
-RUN chmod +x /app/scripts/start_api.sh
-
-CMD ["/app/scripts/start_api.sh"]
+# Start API server
+CMD ["poetry", "run", "uvicorn", "credit_risk_mlops.api.server:app", "--host", "0.0.0.0", "--port", "8000"]
