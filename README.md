@@ -1,4 +1,4 @@
-# credimax — Credit Risk MLOps Project
+# credimax Project — Credit Risk MLOps Project
 
 This project implements a full MLOps workflow using:
 - FastAPI
