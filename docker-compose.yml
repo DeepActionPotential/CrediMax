@@ -1,27 +1,28 @@
 version: "3.9"
 
 services:
-
   api:
     build:
-      context: ..
+      context: .
       dockerfile: docker/api.Dockerfile
     container_name: credimax_api
     ports:
-      - "8000:8000"
+      - "80:8000"
     restart: always
+    environment:
+      MODEL_PATH: "/app/artifacts/credit_risk_pipeline.joblib"
+      DOCKER: "1"
     volumes:
       - ./mlruns:/app/mlruns
       - ./mlflow.db:/app/mlflow.db
       - ./artifacts:/app/artifacts
 
-
   trainer:
     build:
-      context: ..
+      context: .
       dockerfile: docker/train.Dockerfile
     container_name: credimax_trainer
-    restart: on-demand
+    restart: on-failure
     volumes:
-      - ../data:/app/data            # allow updating raw dataset
-      - ../artifacts:/app/artifacts  # trainer writes new pipeline here
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
