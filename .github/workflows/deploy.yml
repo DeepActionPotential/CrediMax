@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "."
-          target: "${{ secrets.EC2_PROJECT_PATH }}/CrediMax"
+          target: "${{ secrets.EC2_PROJECT_PATH }}"
           overwrite: true
 
       - name: Restart application via SSH
@@ -31,10 +31,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ${{ secrets.EC2_PROJECT_PATH }}/CrediMax
-
-            echo "Pulling latest changes..."
-            git pull || true
+            cd ${{ secrets.EC2_PROJECT_PATH }}
 
             echo "Stopping old containers..."
             sudo docker compose down || true
