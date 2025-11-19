@@ -14,26 +14,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy repository to EC2
+      - name: Copy project files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: |
-            ./credit_risk_mlops
-            ./configs
-            ./docker
-            ./scripts
-            ./data
-            ./docker-compose.yml
-            ./poetry.lock
-            ./pyproject.toml
+          port: 22
 
-          strip_components: 0
-          target: "/home/ubuntu/CrediMax"
+          # ✅ MUST NOT use "./" inside a multi-line block
+          source: |
+            credit_risk_mlops
+            configs
+            docker
+            scripts
+            data
+            docker-compose.yml
+            poetry.lock
+            pyproject.toml
+
+          target: /home/ubuntu/CrediMax
           overwrite: true
-          
+          strip_components: 0
 
       - name: Restart application via SSH
         uses: appleboy/ssh-action@master
@@ -41,6 +43,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
             cd ${{ secrets.EC2_PROJECT_PATH }}
 
