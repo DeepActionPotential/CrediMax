@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "."
-          target: "${{ secrets.EC2_PROJECT_PATH }}"
+          target: "/home/ubuntu/CrediMax"
           overwrite: true
 
       - name: Restart application via SSH
