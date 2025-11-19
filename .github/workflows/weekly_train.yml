@@ -1,4 +1,4 @@
-name: CrediMax - Weekly Training
+name: credimax - Weekly Training
 
 on:
   schedule:
@@ -18,17 +18,17 @@ jobs:
 
       - name: Build trainer image locally
         run: |
-          docker build -t crediMax-trainer \
+          docker build -t credimax-trainer \
             -f docker/trainer.Dockerfile .
 
       - name: Run training in container
         run: |
           docker run --rm \
             -v ${{ github.workspace }}/artifacts:/app/artifacts \
-            crediMax-trainer /app/scripts/start_train.sh
+            credimax-trainer /app/scripts/start_train.sh
 
       - name: Upload trained model artifact
         uses: actions/upload-artifact@v4
         with:
-          name: crediMax-trained-model
+          name: credimax-trained-model
           path: artifacts/credit_risk_pipeline.joblib

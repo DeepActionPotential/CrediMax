@@ -1,4 +1,4 @@
-name: CrediMax - CI Tests
+name: credimax - CI Tests
 
 on:
   push:

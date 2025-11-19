@@ -1,4 +1,4 @@
-name: CrediMax - Build & Push API
+name: credimax - Build & Push API
 
 on:
   push:
@@ -24,8 +24,8 @@ jobs:
 
       - name: Build API image
         run: |
-          docker build -t ghcr.io/deepactionpotential/crediMax-api:latest \
+          docker build -t ghcr.io/deepactionpotential/credimax-api:latest \
             -f docker/api.Dockerfile .
 
       - name: Push API image
-        run: docker push ghcr.io/deepactionpotential/crediMax-api:latest
+        run: docker push ghcr.io/deepactionpotential/credimax-api:latest

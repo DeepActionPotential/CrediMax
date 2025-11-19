@@ -1,4 +1,4 @@
-name: CrediMax - Build & Push Trainer
+name: credimax - Build & Push Trainer
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Trainer image
         run: |
-          docker build -t ghcr.io/deepactionpotential/crediMax-trainer:latest \
+          docker build -t ghcr.io/deepactionpotential/credimax-trainer:latest \
             -f docker/trainer.Dockerfile .
 
       - name: Push Trainer Image

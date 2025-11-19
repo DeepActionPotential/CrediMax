@@ -1,5 +1,5 @@
 # ============================
-#  CrediMax API Dockerfile
+#  credimax API Dockerfile
 # ============================
 
 FROM python:3.11-slim
