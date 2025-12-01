@@ -7,7 +7,7 @@ services:
       dockerfile: docker/api.Dockerfile
     container_name: credimax_api
     ports:
-      - "80:8000"
+      - "8000:8000"
     restart: always
     environment:
       MODEL_PATH: "/app/artifacts/credit_risk_pipeline.joblib"

@@ -2,4 +2,4 @@
 set -e
 
 echo "🚀 Starting FastAPI..."
-poetry run uvicorn credit_risk_mlops.api.server:app --host 0.0.0.0 --port 8000 --reload
+uvicorn credit_risk_mlops.api.server:app --host 0.0.0.0 --port 8000
