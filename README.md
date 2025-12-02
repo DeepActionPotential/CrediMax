@@ -252,15 +252,13 @@ This ensures the model:
 
 # **Demo**
 
-![Demo](docs/demo.png)
+![Demo](demo/1.png)
+![Demo](demo/2.png)
+![Demo](demo/3.png)
 
 ### Video Demo
 
-```html
-<video controls width="700">
-  <source src="docs/demo.mp4" type="video/mp4">
-</video>
-```
+[demo video](demo/1.mp4)
 
 ---
 
