@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ---------------------------------------------
+      # Upload project to EC2
+      # ---------------------------------------------
       - name: Copy project files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -22,15 +25,25 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
 
-          # FIXED: scp-action ONLY accepts comma-separated list for multi paths
-          source: "credit_risk_mlops,configs,docker,scripts,data,docker-compose.yml,poetry.lock,pyproject.toml"
+          source: |
+            credit_risk_mlops
+            configs
+            docker
+            scripts
+            data
+            artifacts
+            docker-compose.yml
+            poetry.lock
+            pyproject.toml
 
           target: "/home/ubuntu/CrediMax"
           overwrite: true
-          strip_components: 0
 
+      # ---------------------------------------------
+      # Restart application on EC2
+      # ---------------------------------------------
       - name: Restart application via SSH
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
@@ -42,7 +55,13 @@ jobs:
             echo "Stopping old containers..."
             sudo docker compose down || true
 
-            echo "Rebuilding & starting containers..."
-            sudo docker compose up -d --build
+            echo "Rebuilding containers..."
+            sudo docker compose build
+
+            echo "Starting containers..."
+            sudo docker compose up -d
+
+            echo "Showing running services..."
+            sudo docker ps -a
 
             echo "Deployment finished successfully!"
