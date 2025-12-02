@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: docker/api.Dockerfile
     ports:
-      - "8000:8000"
+      - "80:8000"
     restart: always
     environment:
       MODEL_PATH: "/app/artifacts/credit_risk_pipeline.joblib"
