@@ -14,19 +14,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy project files to EC2
+      # ============================================
+      # Copy project to EC2
+      # ============================================
+      - name: Upload project to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-
           source: "credit_risk_mlops,configs,docker,scripts,artifacts,docker-compose.yml,poetry.lock,pyproject.toml"
           target: "/home/ubuntu/CrediMax"
           overwrite: true
 
-      - name: Restart application via SSH
+      # ============================================
+      # SSH into EC2 and deploy
+      # ============================================
+      - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -34,15 +39,54 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd ${{ secrets.EC2_PROJECT_PATH }}
+            set -e
 
-            echo "Stopping old containers..."
+            echo ">>> Updating apt"
+            sudo apt-get update -y
+
+            echo ">>> Checking if docker is installed"
+            if ! command -v docker &> /dev/null
+            then
+              echo ">>> Installing Docker + Compose"
+              sudo apt-get install ca-certificates curl gnupg -y
+
+              sudo install -m 0755 -d /etc/apt/keyrings
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+              sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+              echo \
+                "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+                | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null                
+
+              sudo apt-get update -y
+              sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+              echo ">>> Docker installed."
+            else
+              echo ">>> Docker already installed."
+            fi
+
+            echo ">>> Starting Docker daemon"
+            sudo systemctl start docker
+            sudo systemctl enable docker
+
+            echo ">>> Fixing permissions for docker"
+            sudo usermod -aG docker ubuntu || true
+
+            echo ">>> Restarting Docker"
+            sudo systemctl restart docker
+
+            echo ">>> Changing directory to project"
+            cd /home/ubuntu/CrediMax
+
+            echo ">>> Stopping old containers"
             sudo docker compose down || true
 
-            echo "Rebuilding containers..."
+            echo ">>> Building new containers"
             sudo docker compose build
 
-            echo "Starting containers..."
+            echo ">>> Starting containers"
             sudo docker compose up -d
 
-            echo "Deployment finished successfully!"
+            echo ">>> Deployment complete. Running containers:"
+            sudo docker ps -a
